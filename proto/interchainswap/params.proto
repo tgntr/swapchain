@@ -1,0 +1,12 @@
+syntax = "proto3";
+package tgntr.swapchain.interchainswap;
+
+import "gogoproto/gogo.proto";
+
+option go_package = "github.com/tgntr/swapchain/x/interchainswap/types";
+
+// Params defines the parameters for the module.
+message Params {
+  option (gogoproto.goproto_stringer) = false;
+  
+}

@@ -1,0 +1,15 @@
+syntax = "proto3";
+package tgntr.swapchain.interchainswap;
+
+import "gogoproto/gogo.proto";
+import "interchainswap/params.proto";
+// this line is used by starport scaffolding # genesis/proto/import
+
+option go_package = "github.com/tgntr/swapchain/x/interchainswap/types";
+
+// GenesisState defines the interchainswap module's genesis state.
+message GenesisState {
+  Params params = 1 [(gogoproto.nullable) = false];
+  string port_id = 2;
+  // this line is used by starport scaffolding # genesis/proto/state
+}
