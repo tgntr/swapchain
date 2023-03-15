@@ -24,9 +24,9 @@ var (
 )
 
 const (
-	opWeightMsgSendQueryAllBalances = "op_weight_msg_send_query_all_balances"
+	opWeightMsgSendQueryOsmosisSpotPrice = "op_weight_msg_send_query_osmosis_spot_price"
 	// TODO: Determine the simulation weight value
-	defaultWeightMsgSendQueryAllBalances int = 100
+	defaultWeightMsgSendQueryOsmosisSpotPrice int = 100
 
 	// this line is used by starport scaffolding # simapp/module/const
 )
@@ -63,15 +63,15 @@ func (am AppModule) RegisterStoreDecoder(_ sdk.StoreDecoderRegistry) {}
 func (am AppModule) WeightedOperations(simState module.SimulationState) []simtypes.WeightedOperation {
 	operations := make([]simtypes.WeightedOperation, 0)
 
-	var weightMsgSendQueryAllBalances int
-	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgSendQueryAllBalances, &weightMsgSendQueryAllBalances, nil,
+	var weightMsgSendQueryOsmosisSpotPrice int
+	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgSendQueryOsmosisSpotPrice, &weightMsgSendQueryOsmosisSpotPrice, nil,
 		func(_ *rand.Rand) {
-			weightMsgSendQueryAllBalances = defaultWeightMsgSendQueryAllBalances
+			weightMsgSendQueryOsmosisSpotPrice = defaultWeightMsgSendQueryOsmosisSpotPrice
 		},
 	)
 	operations = append(operations, simulation.NewWeightedOperation(
-		weightMsgSendQueryAllBalances,
-		interchainswapsimulation.SimulateMsgSendQueryAllBalances(am.accountKeeper, am.bankKeeper, am.keeper),
+		weightMsgSendQueryOsmosisSpotPrice,
+		interchainswapsimulation.SimulateMsgSendQueryOsmosisSpotPrice(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
 	// this line is used by starport scaffolding # simapp/module/operation

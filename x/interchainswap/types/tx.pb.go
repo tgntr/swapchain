@@ -6,7 +6,7 @@ package types
 import (
 	context "context"
 	fmt "fmt"
-	query "github.com/cosmos/cosmos-sdk/types/query"
+	_ "github.com/cosmos/cosmos-sdk/types/query"
 	grpc1 "github.com/gogo/protobuf/grpc"
 	proto "github.com/gogo/protobuf/proto"
 	grpc "google.golang.org/grpc"
@@ -28,25 +28,26 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-type MsgSendQueryAllBalances struct {
-	Creator    string             `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
-	ChannelId  string             `protobuf:"bytes,2,opt,name=channel_id,json=channelId,proto3" json:"channel_id,omitempty"`
-	Address    string             `protobuf:"bytes,3,opt,name=address,proto3" json:"address,omitempty"`
-	Pagination *query.PageRequest `protobuf:"bytes,4,opt,name=pagination,proto3" json:"pagination,omitempty"`
+type MsgSendQueryOsmosisSpotPrice struct {
+	Creator         string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
+	ChannelId       string `protobuf:"bytes,2,opt,name=channel_id,json=channelId,proto3" json:"channel_id,omitempty"`
+	PoolId          uint64 `protobuf:"varint,3,opt,name=pool_id,json=poolId,proto3" json:"pool_id,omitempty"`
+	BaseAssetDenom  string `protobuf:"bytes,4,opt,name=base_asset_denom,json=baseAssetDenom,proto3" json:"base_asset_denom,omitempty"`
+	QuoteAssetDenom string `protobuf:"bytes,5,opt,name=quote_asset_denom,json=quoteAssetDenom,proto3" json:"quote_asset_denom,omitempty"`
 }
 
-func (m *MsgSendQueryAllBalances) Reset()         { *m = MsgSendQueryAllBalances{} }
-func (m *MsgSendQueryAllBalances) String() string { return proto.CompactTextString(m) }
-func (*MsgSendQueryAllBalances) ProtoMessage()    {}
-func (*MsgSendQueryAllBalances) Descriptor() ([]byte, []int) {
+func (m *MsgSendQueryOsmosisSpotPrice) Reset()         { *m = MsgSendQueryOsmosisSpotPrice{} }
+func (m *MsgSendQueryOsmosisSpotPrice) String() string { return proto.CompactTextString(m) }
+func (*MsgSendQueryOsmosisSpotPrice) ProtoMessage()    {}
+func (*MsgSendQueryOsmosisSpotPrice) Descriptor() ([]byte, []int) {
 	return fileDescriptor_6cb2d9d84eeca56b, []int{0}
 }
-func (m *MsgSendQueryAllBalances) XXX_Unmarshal(b []byte) error {
+func (m *MsgSendQueryOsmosisSpotPrice) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *MsgSendQueryAllBalances) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *MsgSendQueryOsmosisSpotPrice) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_MsgSendQueryAllBalances.Marshal(b, m, deterministic)
+		return xxx_messageInfo_MsgSendQueryOsmosisSpotPrice.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -56,62 +57,69 @@ func (m *MsgSendQueryAllBalances) XXX_Marshal(b []byte, deterministic bool) ([]b
 		return b[:n], nil
 	}
 }
-func (m *MsgSendQueryAllBalances) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgSendQueryAllBalances.Merge(m, src)
+func (m *MsgSendQueryOsmosisSpotPrice) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgSendQueryOsmosisSpotPrice.Merge(m, src)
 }
-func (m *MsgSendQueryAllBalances) XXX_Size() int {
+func (m *MsgSendQueryOsmosisSpotPrice) XXX_Size() int {
 	return m.Size()
 }
-func (m *MsgSendQueryAllBalances) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgSendQueryAllBalances.DiscardUnknown(m)
+func (m *MsgSendQueryOsmosisSpotPrice) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgSendQueryOsmosisSpotPrice.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_MsgSendQueryAllBalances proto.InternalMessageInfo
+var xxx_messageInfo_MsgSendQueryOsmosisSpotPrice proto.InternalMessageInfo
 
-func (m *MsgSendQueryAllBalances) GetCreator() string {
+func (m *MsgSendQueryOsmosisSpotPrice) GetCreator() string {
 	if m != nil {
 		return m.Creator
 	}
 	return ""
 }
 
-func (m *MsgSendQueryAllBalances) GetChannelId() string {
+func (m *MsgSendQueryOsmosisSpotPrice) GetChannelId() string {
 	if m != nil {
 		return m.ChannelId
 	}
 	return ""
 }
 
-func (m *MsgSendQueryAllBalances) GetAddress() string {
+func (m *MsgSendQueryOsmosisSpotPrice) GetPoolId() uint64 {
 	if m != nil {
-		return m.Address
+		return m.PoolId
+	}
+	return 0
+}
+
+func (m *MsgSendQueryOsmosisSpotPrice) GetBaseAssetDenom() string {
+	if m != nil {
+		return m.BaseAssetDenom
 	}
 	return ""
 }
 
-func (m *MsgSendQueryAllBalances) GetPagination() *query.PageRequest {
+func (m *MsgSendQueryOsmosisSpotPrice) GetQuoteAssetDenom() string {
 	if m != nil {
-		return m.Pagination
+		return m.QuoteAssetDenom
 	}
-	return nil
+	return ""
 }
 
-type MsgSendQueryAllBalancesResponse struct {
+type MsgSendQueryOsmosisSpotPriceResponse struct {
 	Sequence uint64 `protobuf:"varint,1,opt,name=sequence,proto3" json:"sequence,omitempty"`
 }
 
-func (m *MsgSendQueryAllBalancesResponse) Reset()         { *m = MsgSendQueryAllBalancesResponse{} }
-func (m *MsgSendQueryAllBalancesResponse) String() string { return proto.CompactTextString(m) }
-func (*MsgSendQueryAllBalancesResponse) ProtoMessage()    {}
-func (*MsgSendQueryAllBalancesResponse) Descriptor() ([]byte, []int) {
+func (m *MsgSendQueryOsmosisSpotPriceResponse) Reset()         { *m = MsgSendQueryOsmosisSpotPriceResponse{} }
+func (m *MsgSendQueryOsmosisSpotPriceResponse) String() string { return proto.CompactTextString(m) }
+func (*MsgSendQueryOsmosisSpotPriceResponse) ProtoMessage()    {}
+func (*MsgSendQueryOsmosisSpotPriceResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_6cb2d9d84eeca56b, []int{1}
 }
-func (m *MsgSendQueryAllBalancesResponse) XXX_Unmarshal(b []byte) error {
+func (m *MsgSendQueryOsmosisSpotPriceResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *MsgSendQueryAllBalancesResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *MsgSendQueryOsmosisSpotPriceResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_MsgSendQueryAllBalancesResponse.Marshal(b, m, deterministic)
+		return xxx_messageInfo_MsgSendQueryOsmosisSpotPriceResponse.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -121,19 +129,19 @@ func (m *MsgSendQueryAllBalancesResponse) XXX_Marshal(b []byte, deterministic bo
 		return b[:n], nil
 	}
 }
-func (m *MsgSendQueryAllBalancesResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgSendQueryAllBalancesResponse.Merge(m, src)
+func (m *MsgSendQueryOsmosisSpotPriceResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgSendQueryOsmosisSpotPriceResponse.Merge(m, src)
 }
-func (m *MsgSendQueryAllBalancesResponse) XXX_Size() int {
+func (m *MsgSendQueryOsmosisSpotPriceResponse) XXX_Size() int {
 	return m.Size()
 }
-func (m *MsgSendQueryAllBalancesResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgSendQueryAllBalancesResponse.DiscardUnknown(m)
+func (m *MsgSendQueryOsmosisSpotPriceResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgSendQueryOsmosisSpotPriceResponse.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_MsgSendQueryAllBalancesResponse proto.InternalMessageInfo
+var xxx_messageInfo_MsgSendQueryOsmosisSpotPriceResponse proto.InternalMessageInfo
 
-func (m *MsgSendQueryAllBalancesResponse) GetSequence() uint64 {
+func (m *MsgSendQueryOsmosisSpotPriceResponse) GetSequence() uint64 {
 	if m != nil {
 		return m.Sequence
 	}
@@ -141,36 +149,37 @@ func (m *MsgSendQueryAllBalancesResponse) GetSequence() uint64 {
 }
 
 func init() {
-	proto.RegisterType((*MsgSendQueryAllBalances)(nil), "tgntr.swapchain.interchainswap.MsgSendQueryAllBalances")
-	proto.RegisterType((*MsgSendQueryAllBalancesResponse)(nil), "tgntr.swapchain.interchainswap.MsgSendQueryAllBalancesResponse")
+	proto.RegisterType((*MsgSendQueryOsmosisSpotPrice)(nil), "tgntr.swapchain.interchainswap.MsgSendQueryOsmosisSpotPrice")
+	proto.RegisterType((*MsgSendQueryOsmosisSpotPriceResponse)(nil), "tgntr.swapchain.interchainswap.MsgSendQueryOsmosisSpotPriceResponse")
 }
 
 func init() { proto.RegisterFile("interchainswap/tx.proto", fileDescriptor_6cb2d9d84eeca56b) }
 
 var fileDescriptor_6cb2d9d84eeca56b = []byte{
-	// 344 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x9c, 0x92, 0xcf, 0x4a, 0x2b, 0x31,
-	0x14, 0xc6, 0x9b, 0xdb, 0x72, 0xef, 0x6d, 0xdc, 0x0d, 0x42, 0x87, 0x82, 0xb1, 0x74, 0x21, 0xc5,
-	0x45, 0x42, 0xeb, 0xc2, 0x95, 0x88, 0x5d, 0x08, 0x22, 0x05, 0x1d, 0x77, 0x6e, 0x24, 0x93, 0x39,
-	0x4c, 0x07, 0xa6, 0xc9, 0x34, 0x27, 0xd5, 0xf6, 0x2d, 0xba, 0xf4, 0x41, 0x7c, 0x08, 0x97, 0x5d,
-	0xba, 0x94, 0xf6, 0x45, 0x64, 0xa6, 0x7f, 0xfc, 0x83, 0x75, 0xe1, 0xf2, 0x3b, 0xe7, 0x7c, 0xf9,
-	0x7e, 0x49, 0x0e, 0xad, 0x25, 0xda, 0x81, 0x55, 0x7d, 0x99, 0x68, 0x7c, 0x90, 0x99, 0x70, 0x63,
-	0x9e, 0x59, 0xe3, 0x8c, 0xc7, 0x5c, 0xac, 0x9d, 0xe5, 0x79, 0xb1, 0xe8, 0xf2, 0xcf, 0x83, 0xf5,
-	0x43, 0x65, 0x70, 0x60, 0x50, 0x84, 0x12, 0x41, 0x0c, 0x47, 0x60, 0x27, 0xe2, 0xbe, 0x1d, 0x82,
-	0x93, 0x6d, 0x91, 0xc9, 0x38, 0xd1, 0xd2, 0x25, 0x46, 0x2f, 0xcf, 0x6a, 0x3e, 0x11, 0x5a, 0xeb,
-	0x61, 0x7c, 0x03, 0x3a, 0xba, 0xce, 0x27, 0xcf, 0xd2, 0xb4, 0x2b, 0x53, 0xa9, 0x15, 0xa0, 0xe7,
-	0xd3, 0x7f, 0xca, 0x82, 0x74, 0xc6, 0xfa, 0xa4, 0x41, 0x5a, 0xd5, 0x60, 0x2d, 0xbd, 0x3d, 0x4a,
-	0x55, 0x5f, 0x6a, 0x0d, 0xe9, 0x5d, 0x12, 0xf9, 0x7f, 0x8a, 0x66, 0x75, 0x55, 0xb9, 0x88, 0x72,
-	0xa3, 0x8c, 0x22, 0x0b, 0x88, 0x7e, 0x79, 0x69, 0x5c, 0x49, 0xef, 0x9c, 0xd2, 0x77, 0x04, 0xbf,
-	0xd2, 0x20, 0xad, 0x9d, 0xce, 0x01, 0x5f, 0xf2, 0xf2, 0x9c, 0x97, 0x17, 0xbc, 0x7c, 0xc5, 0xcb,
-	0xaf, 0x64, 0x0c, 0x01, 0x0c, 0x47, 0x80, 0x2e, 0xf8, 0xe0, 0x6c, 0x9e, 0xd0, 0xfd, 0x2d, 0xd4,
-	0x01, 0x60, 0x66, 0x34, 0x82, 0x57, 0xa7, 0xff, 0x31, 0x77, 0x6a, 0x05, 0x05, 0x7e, 0x25, 0xd8,
-	0xe8, 0xce, 0x23, 0xa1, 0xe5, 0x1e, 0xc6, 0xde, 0x94, 0xd0, 0xdd, 0x6f, 0xaf, 0x7e, 0xcc, 0x7f,
-	0x7e, 0x63, 0xbe, 0x25, 0xbd, 0x7e, 0xfa, 0x4b, 0xe3, 0x1a, 0xbb, 0x7b, 0xf9, 0x3c, 0x67, 0x64,
-	0x36, 0x67, 0xe4, 0x75, 0xce, 0xc8, 0x74, 0xc1, 0x4a, 0xb3, 0x05, 0x2b, 0xbd, 0x2c, 0x58, 0xe9,
-	0xb6, 0x1d, 0x27, 0xae, 0x3f, 0x0a, 0xb9, 0x32, 0x03, 0x51, 0x84, 0x88, 0x4d, 0x88, 0x18, 0x8b,
-	0xaf, 0xcb, 0x32, 0xc9, 0x00, 0xc3, 0xbf, 0xc5, 0x27, 0x1f, 0xbd, 0x05, 0x00, 0x00, 0xff, 0xff,
-	0x6c, 0x63, 0xf6, 0x3a, 0x4b, 0x02, 0x00, 0x00,
+	// 355 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xa4, 0x52, 0xbd, 0x4e, 0x2a, 0x41,
+	0x14, 0x66, 0x2e, 0x5c, 0xb8, 0x4c, 0x71, 0xef, 0x75, 0x1a, 0x56, 0xa2, 0x1b, 0x42, 0x2c, 0x08,
+	0xc5, 0x4e, 0xd0, 0xd6, 0x46, 0x42, 0x43, 0x0c, 0x51, 0x97, 0xce, 0x86, 0xcc, 0xee, 0x9e, 0x2c,
+	0x93, 0xc8, 0xcc, 0x32, 0x33, 0xab, 0xf0, 0x16, 0xbe, 0x81, 0xa5, 0x6f, 0x62, 0x2c, 0x29, 0x2d,
+	0x0d, 0xbc, 0x88, 0x99, 0x51, 0x30, 0x98, 0x48, 0x63, 0xf9, 0xfd, 0xcd, 0x9c, 0xef, 0xe4, 0xe0,
+	0x1a, 0x17, 0x06, 0x54, 0x3c, 0x66, 0x5c, 0xe8, 0x3b, 0x96, 0x51, 0x33, 0x0b, 0x32, 0x25, 0x8d,
+	0x24, 0xbe, 0x49, 0x85, 0x51, 0x81, 0x25, 0x9d, 0x1a, 0x6c, 0x1b, 0xeb, 0xed, 0x58, 0xea, 0x89,
+	0xd4, 0x34, 0x62, 0x1a, 0xe8, 0x34, 0x07, 0x35, 0xa7, 0xb7, 0x9d, 0x08, 0x0c, 0xeb, 0xd0, 0x8c,
+	0xa5, 0x5c, 0x30, 0xc3, 0xa5, 0x78, 0x7f, 0xab, 0xf9, 0x84, 0xf0, 0xc1, 0x40, 0xa7, 0x43, 0x10,
+	0xc9, 0x95, 0x75, 0x5e, 0xd8, 0x24, 0xd7, 0xc3, 0x4c, 0x9a, 0x4b, 0xc5, 0x63, 0x20, 0x1e, 0xae,
+	0xc4, 0x0a, 0x98, 0x91, 0xca, 0x43, 0x0d, 0xd4, 0xaa, 0x86, 0x6b, 0x48, 0x0e, 0x31, 0x8e, 0xc7,
+	0x4c, 0x08, 0xb8, 0x19, 0xf1, 0xc4, 0xfb, 0xe5, 0xc4, 0xea, 0x07, 0xd3, 0x4f, 0x48, 0x0d, 0x57,
+	0x32, 0x29, 0x9d, 0x56, 0x6c, 0xa0, 0x56, 0x29, 0x2c, 0x5b, 0xd8, 0x4f, 0x48, 0x0b, 0xff, 0xb7,
+	0x93, 0x8d, 0x98, 0xd6, 0x60, 0x46, 0x09, 0x08, 0x39, 0xf1, 0x4a, 0x2e, 0xfd, 0xd7, 0xf2, 0x67,
+	0x96, 0xee, 0x59, 0x96, 0xb4, 0xf1, 0xde, 0x34, 0x97, 0x66, 0xdb, 0xfa, 0xdb, 0x59, 0xff, 0x39,
+	0xe1, 0xd3, 0xdb, 0xec, 0xe2, 0xa3, 0x5d, 0x3d, 0x42, 0xd0, 0x99, 0x14, 0x1a, 0x48, 0x1d, 0xff,
+	0xd1, 0x30, 0xcd, 0x41, 0xc4, 0xe0, 0x0a, 0x95, 0xc2, 0x0d, 0x3e, 0x7e, 0x44, 0xb8, 0x38, 0xd0,
+	0x29, 0x79, 0x40, 0x78, 0xff, 0xfb, 0x8d, 0x9c, 0x06, 0xbb, 0xf7, 0x1f, 0xec, 0x9a, 0xa3, 0xde,
+	0xfb, 0x49, 0x7a, 0xdd, 0xa2, 0x7b, 0xfe, 0xbc, 0xf4, 0xd1, 0x62, 0xe9, 0xa3, 0xd7, 0xa5, 0x8f,
+	0xee, 0x57, 0x7e, 0x61, 0xb1, 0xf2, 0x0b, 0x2f, 0x2b, 0xbf, 0x70, 0xdd, 0x49, 0xb9, 0x19, 0xe7,
+	0x51, 0x10, 0xcb, 0x09, 0x75, 0x3f, 0xd1, 0xcd, 0x4f, 0x74, 0x46, 0xbf, 0x9e, 0xd4, 0x3c, 0x03,
+	0x1d, 0x95, 0xdd, 0x29, 0x9c, 0xbc, 0x05, 0x00, 0x00, 0xff, 0xff, 0x47, 0x5b, 0xb9, 0xde, 0x71,
+	0x02, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -185,7 +194,7 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type MsgClient interface {
-	SendQueryAllBalances(ctx context.Context, in *MsgSendQueryAllBalances, opts ...grpc.CallOption) (*MsgSendQueryAllBalancesResponse, error)
+	SendQueryOsmosisSpotPrice(ctx context.Context, in *MsgSendQueryOsmosisSpotPrice, opts ...grpc.CallOption) (*MsgSendQueryOsmosisSpotPriceResponse, error)
 }
 
 type msgClient struct {
@@ -196,9 +205,9 @@ func NewMsgClient(cc grpc1.ClientConn) MsgClient {
 	return &msgClient{cc}
 }
 
-func (c *msgClient) SendQueryAllBalances(ctx context.Context, in *MsgSendQueryAllBalances, opts ...grpc.CallOption) (*MsgSendQueryAllBalancesResponse, error) {
-	out := new(MsgSendQueryAllBalancesResponse)
-	err := c.cc.Invoke(ctx, "/tgntr.swapchain.interchainswap.Msg/SendQueryAllBalances", in, out, opts...)
+func (c *msgClient) SendQueryOsmosisSpotPrice(ctx context.Context, in *MsgSendQueryOsmosisSpotPrice, opts ...grpc.CallOption) (*MsgSendQueryOsmosisSpotPriceResponse, error) {
+	out := new(MsgSendQueryOsmosisSpotPriceResponse)
+	err := c.cc.Invoke(ctx, "/tgntr.swapchain.interchainswap.Msg/SendQueryOsmosisSpotPrice", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -207,35 +216,35 @@ func (c *msgClient) SendQueryAllBalances(ctx context.Context, in *MsgSendQueryAl
 
 // MsgServer is the server API for Msg service.
 type MsgServer interface {
-	SendQueryAllBalances(context.Context, *MsgSendQueryAllBalances) (*MsgSendQueryAllBalancesResponse, error)
+	SendQueryOsmosisSpotPrice(context.Context, *MsgSendQueryOsmosisSpotPrice) (*MsgSendQueryOsmosisSpotPriceResponse, error)
 }
 
 // UnimplementedMsgServer can be embedded to have forward compatible implementations.
 type UnimplementedMsgServer struct {
 }
 
-func (*UnimplementedMsgServer) SendQueryAllBalances(ctx context.Context, req *MsgSendQueryAllBalances) (*MsgSendQueryAllBalancesResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SendQueryAllBalances not implemented")
+func (*UnimplementedMsgServer) SendQueryOsmosisSpotPrice(ctx context.Context, req *MsgSendQueryOsmosisSpotPrice) (*MsgSendQueryOsmosisSpotPriceResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SendQueryOsmosisSpotPrice not implemented")
 }
 
 func RegisterMsgServer(s grpc1.Server, srv MsgServer) {
 	s.RegisterService(&_Msg_serviceDesc, srv)
 }
 
-func _Msg_SendQueryAllBalances_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MsgSendQueryAllBalances)
+func _Msg_SendQueryOsmosisSpotPrice_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgSendQueryOsmosisSpotPrice)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(MsgServer).SendQueryAllBalances(ctx, in)
+		return srv.(MsgServer).SendQueryOsmosisSpotPrice(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/tgntr.swapchain.interchainswap.Msg/SendQueryAllBalances",
+		FullMethod: "/tgntr.swapchain.interchainswap.Msg/SendQueryOsmosisSpotPrice",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MsgServer).SendQueryAllBalances(ctx, req.(*MsgSendQueryAllBalances))
+		return srv.(MsgServer).SendQueryOsmosisSpotPrice(ctx, req.(*MsgSendQueryOsmosisSpotPrice))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -245,15 +254,15 @@ var _Msg_serviceDesc = grpc.ServiceDesc{
 	HandlerType: (*MsgServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "SendQueryAllBalances",
-			Handler:    _Msg_SendQueryAllBalances_Handler,
+			MethodName: "SendQueryOsmosisSpotPrice",
+			Handler:    _Msg_SendQueryOsmosisSpotPrice_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
 	Metadata: "interchainswap/tx.proto",
 }
 
-func (m *MsgSendQueryAllBalances) Marshal() (dAtA []byte, err error) {
+func (m *MsgSendQueryOsmosisSpotPrice) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -263,34 +272,34 @@ func (m *MsgSendQueryAllBalances) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *MsgSendQueryAllBalances) MarshalTo(dAtA []byte) (int, error) {
+func (m *MsgSendQueryOsmosisSpotPrice) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *MsgSendQueryAllBalances) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *MsgSendQueryOsmosisSpotPrice) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
-	if m.Pagination != nil {
-		{
-			size, err := m.Pagination.MarshalToSizedBuffer(dAtA[:i])
-			if err != nil {
-				return 0, err
-			}
-			i -= size
-			i = encodeVarintTx(dAtA, i, uint64(size))
-		}
+	if len(m.QuoteAssetDenom) > 0 {
+		i -= len(m.QuoteAssetDenom)
+		copy(dAtA[i:], m.QuoteAssetDenom)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.QuoteAssetDenom)))
+		i--
+		dAtA[i] = 0x2a
+	}
+	if len(m.BaseAssetDenom) > 0 {
+		i -= len(m.BaseAssetDenom)
+		copy(dAtA[i:], m.BaseAssetDenom)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.BaseAssetDenom)))
 		i--
 		dAtA[i] = 0x22
 	}
-	if len(m.Address) > 0 {
-		i -= len(m.Address)
-		copy(dAtA[i:], m.Address)
-		i = encodeVarintTx(dAtA, i, uint64(len(m.Address)))
+	if m.PoolId != 0 {
+		i = encodeVarintTx(dAtA, i, uint64(m.PoolId))
 		i--
-		dAtA[i] = 0x1a
+		dAtA[i] = 0x18
 	}
 	if len(m.ChannelId) > 0 {
 		i -= len(m.ChannelId)
@@ -309,7 +318,7 @@ func (m *MsgSendQueryAllBalances) MarshalToSizedBuffer(dAtA []byte) (int, error)
 	return len(dAtA) - i, nil
 }
 
-func (m *MsgSendQueryAllBalancesResponse) Marshal() (dAtA []byte, err error) {
+func (m *MsgSendQueryOsmosisSpotPriceResponse) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -319,12 +328,12 @@ func (m *MsgSendQueryAllBalancesResponse) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *MsgSendQueryAllBalancesResponse) MarshalTo(dAtA []byte) (int, error) {
+func (m *MsgSendQueryOsmosisSpotPriceResponse) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *MsgSendQueryAllBalancesResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *MsgSendQueryOsmosisSpotPriceResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -348,7 +357,7 @@ func encodeVarintTx(dAtA []byte, offset int, v uint64) int {
 	dAtA[offset] = uint8(v)
 	return base
 }
-func (m *MsgSendQueryAllBalances) Size() (n int) {
+func (m *MsgSendQueryOsmosisSpotPrice) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -362,18 +371,21 @@ func (m *MsgSendQueryAllBalances) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovTx(uint64(l))
 	}
-	l = len(m.Address)
+	if m.PoolId != 0 {
+		n += 1 + sovTx(uint64(m.PoolId))
+	}
+	l = len(m.BaseAssetDenom)
 	if l > 0 {
 		n += 1 + l + sovTx(uint64(l))
 	}
-	if m.Pagination != nil {
-		l = m.Pagination.Size()
+	l = len(m.QuoteAssetDenom)
+	if l > 0 {
 		n += 1 + l + sovTx(uint64(l))
 	}
 	return n
 }
 
-func (m *MsgSendQueryAllBalancesResponse) Size() (n int) {
+func (m *MsgSendQueryOsmosisSpotPriceResponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -391,7 +403,7 @@ func sovTx(x uint64) (n int) {
 func sozTx(x uint64) (n int) {
 	return sovTx(uint64((x << 1) ^ uint64((int64(x) >> 63))))
 }
-func (m *MsgSendQueryAllBalances) Unmarshal(dAtA []byte) error {
+func (m *MsgSendQueryOsmosisSpotPrice) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -414,10 +426,10 @@ func (m *MsgSendQueryAllBalances) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: MsgSendQueryAllBalances: wiretype end group for non-group")
+			return fmt.Errorf("proto: MsgSendQueryOsmosisSpotPrice: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgSendQueryAllBalances: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: MsgSendQueryOsmosisSpotPrice: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -485,8 +497,27 @@ func (m *MsgSendQueryAllBalances) Unmarshal(dAtA []byte) error {
 			m.ChannelId = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 3:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field PoolId", wireType)
+			}
+			m.PoolId = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.PoolId |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 4:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Address", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field BaseAssetDenom", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -514,13 +545,13 @@ func (m *MsgSendQueryAllBalances) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Address = string(dAtA[iNdEx:postIndex])
+			m.BaseAssetDenom = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 4:
+		case 5:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Pagination", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field QuoteAssetDenom", wireType)
 			}
-			var msglen int
+			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowTx
@@ -530,27 +561,23 @@ func (m *MsgSendQueryAllBalances) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				msglen |= int(b&0x7F) << shift
+				stringLen |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if msglen < 0 {
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
 				return ErrInvalidLengthTx
 			}
-			postIndex := iNdEx + msglen
+			postIndex := iNdEx + intStringLen
 			if postIndex < 0 {
 				return ErrInvalidLengthTx
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if m.Pagination == nil {
-				m.Pagination = &query.PageRequest{}
-			}
-			if err := m.Pagination.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
+			m.QuoteAssetDenom = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
@@ -573,7 +600,7 @@ func (m *MsgSendQueryAllBalances) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *MsgSendQueryAllBalancesResponse) Unmarshal(dAtA []byte) error {
+func (m *MsgSendQueryOsmosisSpotPriceResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -596,10 +623,10 @@ func (m *MsgSendQueryAllBalancesResponse) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: MsgSendQueryAllBalancesResponse: wiretype end group for non-group")
+			return fmt.Errorf("proto: MsgSendQueryOsmosisSpotPriceResponse: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgSendQueryAllBalancesResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: MsgSendQueryOsmosisSpotPriceResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:

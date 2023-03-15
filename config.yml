@@ -1,28 +1,55 @@
 version: 1
 build:
+  main: cmd/swapchaind
   proto:
     path: proto
     third_party_paths:
     - third_party/proto
     - proto_vendor
 accounts:
-- name: alice
+- name: validator
   coins:
-  - 20000token
-  - 200000000stake
-- name: bob
+  - 999999999999999atom
+  - 999999999999999stake
+  mnemonic: cinnamon legend sword giant master simple visit action level ancient day
+    rubber pigeon filter garment hockey stay water crawl omit airport venture toilet
+    oppose
+- name: relayer
   coins:
-  - 10000token
-  - 100000000stake
+  - 999999999999999atom
+  - 999999999999999stake
+  mnemonic: stamp later develop betray boss ranch abstract puzzle calm right bounce
+    march orchard edge correct canal fault miracle void dutch lottery lucky observe
+    armed
+- name: faucet
+  coins:
+  - 999999999999999atom
+  - 999999999999999stake
+  mnemonic: lizard garlic canyon winner cheese tent drip task because ecology clay
+    bridge junk critic track artefact gather harsh deliver unit vacant earth diesel
+    stool
 faucet:
-  name: bob
+  name: faucet
   coins:
-  - 5token
-  - 100000stake
-  host: 0.0.0.0:4500
-client:
-  openapi:
-    path: docs/static/openapi.yml
+  - 99999999999atom
+  - 99999999999stake
+  host: :4501
+genesis:
+  chain_id: swapchain
 validators:
-- name: alice
+- name: validator
   bonded: 100000000stake
+  app:
+    api:
+      address: :1318
+    grpc:
+      address: :9092
+    grpc-web:
+      address: :9093
+  config:
+    p2p:
+      laddr: :26659
+    rpc:
+      laddr: :26660
+      pprof_laddr: :6061
+  home: ./.swapchain

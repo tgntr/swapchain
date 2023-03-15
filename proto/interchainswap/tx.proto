@@ -8,18 +8,19 @@ option go_package = "github.com/tgntr/swapchain/x/interchainswap/types";
 
 // Msg defines the Msg service.
 service Msg {
-      rpc SendQueryAllBalances(MsgSendQueryAllBalances) returns (MsgSendQueryAllBalancesResponse);
+      rpc SendQueryOsmosisSpotPrice(MsgSendQueryOsmosisSpotPrice) returns (MsgSendQueryOsmosisSpotPriceResponse);
 // this line is used by starport scaffolding # proto/tx/rpc
 }
 
-message MsgSendQueryAllBalances {
+message MsgSendQueryOsmosisSpotPrice {
   string creator = 1;
   string channel_id = 2;
-  string address = 3;
-  cosmos.base.query.v1beta1.PageRequest pagination = 4;
+  uint64 pool_id = 3;
+  string base_asset_denom = 4;
+  string quote_asset_denom = 5;
 }
 
-message MsgSendQueryAllBalancesResponse {
+message MsgSendQueryOsmosisSpotPriceResponse {
   uint64 sequence = 1;
 }
 

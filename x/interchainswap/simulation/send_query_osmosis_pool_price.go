@@ -10,7 +10,7 @@ import (
 	"github.com/tgntr/swapchain/x/interchainswap/types"
 )
 
-func SimulateMsgSendQueryAllBalances(
+func SimulateMsgSendQueryOsmosisSpotPrice(
 	ak types.AccountKeeper,
 	bk types.BankKeeper,
 	k keeper.Keeper,
@@ -18,12 +18,14 @@ func SimulateMsgSendQueryAllBalances(
 	return func(r *rand.Rand, app *baseapp.BaseApp, ctx sdk.Context, accs []simtypes.Account, chainID string,
 	) (simtypes.OperationMsg, []simtypes.FutureOperation, error) {
 		simAccount, _ := simtypes.RandomAcc(r, accs)
-		msg := &types.MsgSendQueryAllBalances{
-			Creator: simAccount.Address.String(),
+		msg := &types.MsgSendQueryOsmosisSpotPrice{
+			Creator:         simAccount.Address.String(),
+			BaseAssetDenom:  "test",
+			QuoteAssetDenom: "testt",
 		}
 
-		// TODO: Handling the SendQueryAllBalances simulation
+		// TODO: Handling the SendQueryOsmosisSpotPrice simulation
 
-		return simtypes.NoOpMsg(types.ModuleName, msg.Type(), "SendQueryAllBalances simulation not implemented"), nil, nil
+		return simtypes.NoOpMsg(types.ModuleName, msg.Type(), "SendQueryOsmosisSpotPrice simulation not implemented"), nil, nil
 	}
 }
