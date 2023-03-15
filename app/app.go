@@ -2,7 +2,6 @@ package app
 
 import (
 	"io"
-	"net/http"
 	"os"
 	"path/filepath"
 
@@ -82,9 +81,9 @@ import (
 	ibchost "github.com/cosmos/ibc-go/v4/modules/core/24-host"
 	ibckeeper "github.com/cosmos/ibc-go/v4/modules/core/keeper"
 	"github.com/spf13/cast"
-	icq "github.com/strangelove-ventures/async-icq"
-	icqkeeper "github.com/strangelove-ventures/async-icq/keeper"
-	icqtypes "github.com/strangelove-ventures/async-icq/types"
+	icq "github.com/strangelove-ventures/async-icq/v4"
+	icqkeeper "github.com/strangelove-ventures/async-icq/v4/keeper"
+	icqtypes "github.com/strangelove-ventures/async-icq/v4/types"
 	abci "github.com/tendermint/tendermint/abci/types"
 	tmjson "github.com/tendermint/tendermint/libs/json"
 	"github.com/tendermint/tendermint/libs/log"
@@ -92,9 +91,7 @@ import (
 	dbm "github.com/tendermint/tm-db"
 
 	"github.com/tendermint/starport/starport/pkg/cosmoscmd"
-	"github.com/tendermint/starport/starport/pkg/openapiconsole"
 
-	"github.com/tgntr/swapchain/docs"
 	interchainswapmodule "github.com/tgntr/swapchain/x/interchainswap"
 	interchainswapmodulekeeper "github.com/tgntr/swapchain/x/interchainswap/keeper"
 	interchainswapmoduletypes "github.com/tgntr/swapchain/x/interchainswap/types"
@@ -103,7 +100,7 @@ import (
 
 const (
 	AccountAddressPrefix = "cosmos"
-	Name                 = "interchain-query-demo"
+	Name                 = "swapchain"
 )
 
 // this line is used by starport scaffolding # stargate/wasm/app/enabledProposals
@@ -674,10 +671,6 @@ func (app *App) RegisterAPIRoutes(apiSvr *api.Server, apiConfig config.APIConfig
 	// Register legacy and grpc-gateway routes for all modules.
 	ModuleBasics.RegisterRESTRoutes(clientCtx, apiSvr.Router)
 	ModuleBasics.RegisterGRPCGatewayRoutes(clientCtx, apiSvr.GRPCGatewayRouter)
-
-	// register app's OpenAPI routes.
-	apiSvr.Router.Handle("/static/openapi.yml", http.FileServer(http.FS(docs.Docs)))
-	apiSvr.Router.HandleFunc("/", openapiconsole.Handler(Name, "/static/openapi.yml"))
 }
 
 // RegisterTxService implements the Application.RegisterTxService method.

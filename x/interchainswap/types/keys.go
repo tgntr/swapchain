@@ -1,7 +1,7 @@
 package types
 
 import (
-	icqtypes "github.com/strangelove-ventures/async-icq/types"
+	icqtypes "github.com/strangelove-ventures/async-icq/v4/types"
 )
 
 const (

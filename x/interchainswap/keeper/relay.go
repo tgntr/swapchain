@@ -9,7 +9,7 @@ import (
 
 	clienttypes "github.com/cosmos/ibc-go/v4/modules/core/02-client/types"
 	channeltypes "github.com/cosmos/ibc-go/v4/modules/core/04-channel/types"
-	icqtypes "github.com/strangelove-ventures/async-icq/types"
+	icqtypes "github.com/strangelove-ventures/async-icq/v4/types"
 	abci "github.com/tendermint/tendermint/abci/types"
 )
 
