@@ -1,0 +1,17 @@
+{
+   "src":{
+      "chain-id":"swapchain",
+      "port-id":"interchainswap",
+      "order":"unordered",
+      "version":"icq-1"
+   },
+   "dst":{
+      "chain-id":"osmosis",
+      "port-id":"icqhost",
+      "order":"unordered",
+      "version":"icq-1"
+   },
+   "strategy":{
+      "type":"naive"
+   }
+}
