@@ -1,7 +1,6 @@
 syntax = "proto3";
 package tgntr.swapchain.interchainswap;
 
-import "cosmos/base/query/v1beta1/pagination.proto";
 // this line is used by starport scaffolding # proto/tx/import
 
 option go_package = "github.com/tgntr/swapchain/x/interchainswap/types";
@@ -9,6 +8,7 @@ option go_package = "github.com/tgntr/swapchain/x/interchainswap/types";
 // Msg defines the Msg service.
 service Msg {
       rpc SendQueryOsmosisSpotPrice(MsgSendQueryOsmosisSpotPrice) returns (MsgSendQueryOsmosisSpotPriceResponse);
+      rpc RegisterInterchainAccount(MsgRegisterIntechainAccount) returns (MsgRegisterIntechainAccountResponse);
 // this line is used by starport scaffolding # proto/tx/rpc
 }
 
@@ -24,4 +24,11 @@ message MsgSendQueryOsmosisSpotPriceResponse {
   uint64 sequence = 1;
 }
 
+message MsgRegisterIntechainAccount {
+  string owner                      = 1;
+  string connection_id              = 2;
+  string version                    = 3;
+}
+
+message MsgRegisterIntechainAccountResponse {}
 // this line is used by starport scaffolding # proto/tx/message

@@ -1,17 +1,18 @@
 {
-   "src":{
-      "chain-id":"swapchain",
-      "port-id":"interchainswap",
-      "order":"unordered",
-      "version":"icq-1"
+   "src": {
+      "chain-id": "swapchain",
+      "client-id": "",
+      "connection-id": "",
+      "channel-id": ""
    },
-   "dst":{
-      "chain-id":"osmosis",
-      "port-id":"icqhost",
-      "order":"unordered",
-      "version":"icq-1"
+   "dst": {
+      "chain-id": "osmosis",
+      "client-id": "",
+      "connection-id": "",
+      "channel-id": ""
    },
-   "strategy":{
-      "type":"naive"
+   "src-channel-filter": {
+      "rule": "",
+      "channel-list": []
    }
 }

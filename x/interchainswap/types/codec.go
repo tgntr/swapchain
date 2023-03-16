@@ -10,12 +10,14 @@ import (
 
 func RegisterCodec(cdc *codec.LegacyAmino) {
 	cdc.RegisterConcrete(&MsgSendQueryOsmosisSpotPrice{}, "interchainswap/SendQueryOsmosisSpotPrice", nil)
+	cdc.RegisterConcrete(&MsgRegisterIntechainAccount{}, "interchainswap/RegisterInterchainAccount", nil)
 	// this line is used by starport scaffolding # 2
 }
 
 func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 	registry.RegisterImplementations((*sdk.Msg)(nil),
 		&MsgSendQueryOsmosisSpotPrice{},
+		&MsgRegisterIntechainAccount{},
 	)
 	// this line is used by starport scaffolding # 3
 

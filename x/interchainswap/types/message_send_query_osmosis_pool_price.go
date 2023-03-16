@@ -47,15 +47,15 @@ func (msg *MsgSendQueryOsmosisSpotPrice) ValidateBasic() error {
 	}
 
 	if msg.PoolId < 1 {
-		return sdkerrors.Wrapf(ErrInvalidPoolId, "invalid base asset denom (%s)", err)
+		return sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "invalid base asset denom")
 	}
 
 	if err := sdk.ValidateDenom(msg.BaseAssetDenom); err != nil {
-		return sdkerrors.Wrapf(ErrInvalidDenom, "invalid base asset denom (%s)", err)
+		return sdkerrors.Wrapf(sdkerrors.ErrInvalidRequest, "invalid base asset denom (%s)", err)
 	}
 
 	if err := sdk.ValidateDenom(msg.QuoteAssetDenom); err != nil {
-		return sdkerrors.Wrapf(ErrInvalidDenom, "invalid quote asset denom (%s)", err)
+		return sdkerrors.Wrapf(sdkerrors.ErrInvalidRequest, "invalid quote asset denom (%s)", err)
 	}
 
 	return nil

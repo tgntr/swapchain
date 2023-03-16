@@ -15,6 +15,11 @@ https://github.com/strangelove-ventures/async-icq/blob/main/README.md
 
 ## Demo
 
+### Prerequisites
+
+Ignite CLI v0.26+
+https://docs.ignite.com/welcome/install
+
 ### Start swapchain network
 
 ```bash 
@@ -39,7 +44,7 @@ osmosisd tx gamm create-pool --pool-file=contrib/osmosis-pool.json --from valida
 make start-relayer
 ```
 
-### Wait until relayer makes connection between the networks (~30 secs) then query osmosis pool spot price from swapchain
+### Wait until relayer makes connection between the networks (~20 secs) then query osmosis pool spot price from swapchain
 
 ```bash
 swapchaind tx interchainswap send-query-osmosis-spot-price channel-0 1 stake uosmo --from=validator --home=.swapchain --node=tcp://localhost:26660 -y
@@ -49,4 +54,16 @@ swapchaind tx interchainswap send-query-osmosis-spot-price channel-0 1 stake uos
 
 ```bash
 swapchaind query interchainswap query-state 1 --home=.swapchain --node=tcp://localhost:26660
-```                                         
+```
+
+### Create ICA account in osmosis from swapchain
+
+```bash
+swapchaind tx interchainswap register-interchain-account connection-0 --from=validator --home=.swapchain --node=tcp://localhost:26660 -y
+```
+
+### See osmosis account address
+
+```bash
+swapchaind q interchain-accounts controller interchain-account cosmos14y0kdvznkssdtal2r60a8us266n0mm97r2xju8 connection-0  --home=.swapchain --node=tcp://localhost:26660
+```
