@@ -1,6 +1,5 @@
 version: 1
 build:
-  # TODO edit main 
   main: cmd/osmosisd
   proto:
     path: proto
@@ -41,6 +40,11 @@ genesis:
       params:
         allow_queries:
         - /osmosis.gamm.v2.Query/SpotPrice
+    interchainaccounts:
+      host_genesis_state:
+        params:
+          allow_messages:
+          - /osmosis.gamm.v1beta1.MsgSwapExactAmountIn
   chain_id: osmosis
 validators:
 - name: validator

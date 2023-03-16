@@ -7,7 +7,6 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/cosmos/cosmos-sdk/client"
-	// "github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/tgntr/swapchain/x/interchainswap/types"
 )
 
@@ -32,6 +31,7 @@ func GetTxCmd() *cobra.Command {
 
 	cmd.AddCommand(CmdSendQueryOsmosisSpotPrice())
 	cmd.AddCommand(CmdRegisterInterchainAccount())
+	cmd.AddCommand(CmdSendMsgOsmosisSwap())
 	// this line is used by starport scaffolding # 1
 
 	return cmd

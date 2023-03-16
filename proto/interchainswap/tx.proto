@@ -1,14 +1,16 @@
 syntax = "proto3";
 package tgntr.swapchain.interchainswap;
 
+import "interchainswap/osmosis.proto";
 // this line is used by starport scaffolding # proto/tx/import
 
 option go_package = "github.com/tgntr/swapchain/x/interchainswap/types";
 
 // Msg defines the Msg service.
 service Msg {
-      rpc SendQueryOsmosisSpotPrice(MsgSendQueryOsmosisSpotPrice) returns (MsgSendQueryOsmosisSpotPriceResponse);
-      rpc RegisterInterchainAccount(MsgRegisterIntechainAccount) returns (MsgRegisterIntechainAccountResponse);
+  rpc SendQueryOsmosisSpotPrice(MsgSendQueryOsmosisSpotPrice) returns (MsgSendQueryOsmosisSpotPriceResponse);
+  rpc RegisterInterchainAccount(MsgRegisterIntechainAccount) returns (MsgRegisterIntechainAccountResponse);
+  rpc SendMsgOsmosisSwap(MsgSendMsgOsmosisSwap) returns (MsgSendMsgOsmosisSwapResponse);
 // this line is used by starport scaffolding # proto/tx/rpc
 }
 
@@ -25,10 +27,19 @@ message MsgSendQueryOsmosisSpotPriceResponse {
 }
 
 message MsgRegisterIntechainAccount {
-  string owner                      = 1;
-  string connection_id              = 2;
-  string version                    = 3;
+  string owner = 1;
+  string connection_id = 2;
+  string version  = 3;
 }
 
 message MsgRegisterIntechainAccountResponse {}
+
+message MsgSendMsgOsmosisSwap {
+  string owner = 1;
+  string connection_id = 2;
+  OsmosisMsgSwapExactAmountIn msg = 3;
+}
+
+// MsgSubmitTxResponse defines the response for Msg/SubmitTx
+message MsgSendMsgOsmosisSwapResponse {}
 // this line is used by starport scaffolding # proto/tx/message

@@ -12,7 +12,6 @@ import (
 
 var _ = strconv.Itoa(0)
 
-// TODO tes
 func CmdRegisterInterchainAccount() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "register-interchain-account [connection-id]",

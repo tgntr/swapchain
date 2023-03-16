@@ -22,5 +22,6 @@ mnemonic="stamp later develop betray boss ranch abstract puzzle calm right bounc
 ./build/rly keys restore swapchain acc "$mnemonic" --home=.relayer
 ./build/rly keys restore osmosis acc "$mnemonic" --home=.relayer
 
+# link chains (creates client, connection and channel) and start relayer
 ./build/rly tx link-then-start swapchain-osmosis --src-port interchainswap --dst-port icqhost --version=icq-1 --home=.relayer
 

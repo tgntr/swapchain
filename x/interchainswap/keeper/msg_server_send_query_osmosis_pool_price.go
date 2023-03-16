@@ -21,7 +21,7 @@ func (k msgServer) SendQueryOsmosisSpotPrice(goCtx context.Context, msg *types.M
 		return nil, sdkerrors.Wrap(channeltypes.ErrChannelCapabilityNotFound, "module does not own channel capability")
 	}
 
-	q := types.QueryOsmosisSpotPriceRequest{
+	q := types.OsmosisQuerySpotPriceRequest{
 		PoolId:          msg.PoolId,
 		BaseAssetDenom:  msg.BaseAssetDenom,
 		QuoteAssetDenom: msg.QuoteAssetDenom,

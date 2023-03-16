@@ -1,0 +1,32 @@
+syntax = "proto3";
+package tgntr.swapchain.interchainswap;
+
+import "gogoproto/gogo.proto";
+import "cosmos/base/v1beta1/coin.proto";
+
+option go_package = "github.com/tgntr/swapchain/x/interchainswap/types";
+
+message OsmosisQuerySpotPriceRequest {
+  uint64 pool_id = 1;
+  string base_asset_denom = 2;
+  string quote_asset_denom = 3;
+}
+
+message OsmosisQuerySpotPriceResponse {
+  string spot_price = 1;
+}
+
+message SwapAmountInRoute {
+  uint64 pool_id = 1;
+  string token_out_denom = 2;
+}
+
+message OsmosisMsgSwapExactAmountIn {
+  string sender = 1;
+  repeated SwapAmountInRoute routes = 2 [(gogoproto.nullable) = false];
+  cosmos.base.v1beta1.Coin token_in = 3 [(gogoproto.nullable) = false];
+  string token_out_min_amount = 4 [
+    (gogoproto.customtype) = "github.com/cosmos/cosmos-sdk/types.Int",
+    (gogoproto.nullable) = false
+  ];
+}

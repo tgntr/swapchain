@@ -11,6 +11,7 @@ import (
 func RegisterCodec(cdc *codec.LegacyAmino) {
 	cdc.RegisterConcrete(&MsgSendQueryOsmosisSpotPrice{}, "interchainswap/SendQueryOsmosisSpotPrice", nil)
 	cdc.RegisterConcrete(&MsgRegisterIntechainAccount{}, "interchainswap/RegisterInterchainAccount", nil)
+	cdc.RegisterConcrete(&MsgSendMsgOsmosisSwap{}, "interchainswap/SendMsgOsmosisSwap", nil)
 	// this line is used by starport scaffolding # 2
 }
 
@@ -18,13 +19,14 @@ func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 	registry.RegisterImplementations((*sdk.Msg)(nil),
 		&MsgSendQueryOsmosisSpotPrice{},
 		&MsgRegisterIntechainAccount{},
+		&MsgSendMsgOsmosisSwap{},
 	)
 	// this line is used by starport scaffolding # 3
 
 	// For printing purposes
 	registry.RegisterImplementations((*proto.Message)(nil),
-		&QueryOsmosisSpotPriceRequest{},
-		&QueryOsmosisSpotPriceResponse{},
+		&OsmosisQuerySpotPriceRequest{},
+		&OsmosisQuerySpotPriceResponse{},
 	)
 	msgservice.RegisterMsgServiceDesc(registry, &_Msg_serviceDesc)
 }

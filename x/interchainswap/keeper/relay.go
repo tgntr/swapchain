@@ -98,7 +98,7 @@ func (k Keeper) OnAcknowledgementPacket(
 			return sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "no responses in interchain query packet ack")
 		}
 
-		var r types.QueryOsmosisSpotPriceResponse
+		var r types.OsmosisQuerySpotPriceResponse
 		if err := k.cdc.Unmarshal(resps[0].Value, &r); err != nil {
 			return sdkerrors.Wrapf(err, "failed to unmarshal interchain query response to type %T", resp)
 		}
