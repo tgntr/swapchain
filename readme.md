@@ -107,6 +107,6 @@ swapchaind tx interchainswap send-msg-osmosis-swap '{"@type":"/osmosis.gamm.v1be
 # interchain account should have 9990uosmo and some stake in their balance
 osmosisd q bank balances INTERCHAIN_ADDRESS --home=contrib/osmosis/.osmosis --node=tcp://localhost:26662 --chain-id=osmosis
 
-# pool should have more stake than uosmo, therefore the spot price for stake should be less than 1.00
+# pool should have more uosmo than stake, therefore the spot price for uosmo should be less than 1.00 stake
 osmosisd q gamm spot-price 1 stake uosmo --home=contrib/osmosis/.osmosis --node=tcp://localhost:26662 --chain-id=osmosis
 ```
