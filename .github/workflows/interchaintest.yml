@@ -1,0 +1,22 @@
+name: Interchaintest
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+
+jobs:
+  interchaintest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: 1.19
+      - name: Build node docker image
+        run: make build-docker
+      - name: Run interchaintest
+        run: make interchaintest
