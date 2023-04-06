@@ -78,7 +78,7 @@ func (k Keeper) createOutgoingPacket(
 	return packet.Sequence, nil
 }
 
-func (k Keeper) OnAcknowledgementPacket(
+func (k Keeper) OnICQAcknowledgementPacket(
 	ctx sdk.Context,
 	modulePacket channeltypes.Packet,
 	ack channeltypes.Acknowledgement,

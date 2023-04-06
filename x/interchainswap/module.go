@@ -17,7 +17,6 @@ import (
 	cdctypes "github.com/cosmos/cosmos-sdk/codec/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
-	porttypes "github.com/cosmos/ibc-go/v4/modules/core/05-port/types"
 	"github.com/tgntr/swapchain/x/interchainswap/client/cli"
 	"github.com/tgntr/swapchain/x/interchainswap/keeper"
 	"github.com/tgntr/swapchain/x/interchainswap/types"
@@ -26,7 +25,6 @@ import (
 var (
 	_ module.AppModule      = AppModule{}
 	_ module.AppModuleBasic = AppModuleBasic{}
-	_ porttypes.IBCModule   = IBCModule{}
 )
 
 // ----------------------------------------------------------------------------

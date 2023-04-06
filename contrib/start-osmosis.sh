@@ -6,11 +6,11 @@ cd `dirname $0`
 # cleanup
 rm -rf osmosis
 
-# clone icq enabled osmosis repo
+# clone osmosis repo
 git clone --branch=v15.0.0 https://github.com/osmosis-labs/osmosis.git
 cd osmosis
 
-# copy ignite config for starting node
+# copy ignite node config
 cp ../osmosis-config.yml ./config.yml
 
 # build and start node

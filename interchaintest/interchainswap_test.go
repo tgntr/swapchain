@@ -18,7 +18,7 @@ import (
 	"go.uber.org/zap/zaptest"
 )
 
-func TestInterchainSwap(t *testing.T) {
+func TestInterchainswap(t *testing.T) {
 	t.Parallel()
 
 	// setup docker client

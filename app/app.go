@@ -71,6 +71,7 @@ import (
 	upgradekeeper "github.com/cosmos/cosmos-sdk/x/upgrade/keeper"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
 	ica "github.com/cosmos/ibc-go/v4/modules/apps/27-interchain-accounts"
+	icacontroller "github.com/cosmos/ibc-go/v4/modules/apps/27-interchain-accounts/controller"
 	icacontrollerkeeper "github.com/cosmos/ibc-go/v4/modules/apps/27-interchain-accounts/controller/keeper"
 	icacontrollertypes "github.com/cosmos/ibc-go/v4/modules/apps/27-interchain-accounts/controller/types"
 	icatypes "github.com/cosmos/ibc-go/v4/modules/apps/27-interchain-accounts/types"
@@ -81,13 +82,10 @@ import (
 	ibcclient "github.com/cosmos/ibc-go/v4/modules/core/02-client"
 	ibcclientclient "github.com/cosmos/ibc-go/v4/modules/core/02-client/client"
 	ibcclienttypes "github.com/cosmos/ibc-go/v4/modules/core/02-client/types"
-	ibcporttypes "github.com/cosmos/ibc-go/v4/modules/core/05-port/types"
+	porttypes "github.com/cosmos/ibc-go/v4/modules/core/05-port/types"
 	ibchost "github.com/cosmos/ibc-go/v4/modules/core/24-host"
 	ibckeeper "github.com/cosmos/ibc-go/v4/modules/core/keeper"
 	"github.com/spf13/cast"
-	icq "github.com/strangelove-ventures/async-icq/v4"
-	icqkeeper "github.com/strangelove-ventures/async-icq/v4/keeper"
-	icqtypes "github.com/strangelove-ventures/async-icq/v4/types"
 	abci "github.com/tendermint/tendermint/abci/types"
 	tmjson "github.com/tendermint/tendermint/libs/json"
 	"github.com/tendermint/tendermint/libs/log"
@@ -96,9 +94,9 @@ import (
 
 	"github.com/tendermint/starport/starport/pkg/cosmoscmd"
 
-	interchainswapmodule "github.com/tgntr/swapchain/x/interchainswap"
-	interchainswapmodulekeeper "github.com/tgntr/swapchain/x/interchainswap/keeper"
-	interchainswapmoduletypes "github.com/tgntr/swapchain/x/interchainswap/types"
+	"github.com/tgntr/swapchain/x/interchainswap"
+	interchainswapkeeper "github.com/tgntr/swapchain/x/interchainswap/keeper"
+	interchainswaptypes "github.com/tgntr/swapchain/x/interchainswap/types"
 	// this line is used by starport scaffolding # stargate/app/moduleImport
 )
 
@@ -150,9 +148,8 @@ var (
 		upgrade.AppModuleBasic{},
 		evidence.AppModuleBasic{},
 		transfer.AppModuleBasic{},
-		icq.AppModuleBasic{},
 		vesting.AppModuleBasic{},
-		interchainswapmodule.AppModuleBasic{},
+		interchainswap.AppModuleBasic{},
 		ica.AppModuleBasic{},
 		// this line is used by starport scaffolding # stargate/app/moduleBasic
 	)
@@ -204,32 +201,29 @@ type App struct {
 	memKeys map[string]*sdk.MemoryStoreKey
 
 	// keepers
-	AccountKeeper    authkeeper.AccountKeeper
-	BankKeeper       bankkeeper.Keeper
-	CapabilityKeeper *capabilitykeeper.Keeper
-	StakingKeeper    stakingkeeper.Keeper
-	SlashingKeeper   slashingkeeper.Keeper
-	MintKeeper       mintkeeper.Keeper
-	DistrKeeper      distrkeeper.Keeper
-	GovKeeper        govkeeper.Keeper
-	CrisisKeeper     crisiskeeper.Keeper
-	UpgradeKeeper    upgradekeeper.Keeper
-	ParamsKeeper     paramskeeper.Keeper
-	IBCKeeper        *ibckeeper.Keeper // IBC Keeper must be a pointer in the app, so we can SetRouter on it correctly
-	EvidenceKeeper   evidencekeeper.Keeper
-	TransferKeeper   ibctransferkeeper.Keeper
-	ICQKeeper        icqkeeper.Keeper
-	FeeGrantKeeper   feegrantkeeper.Keeper
+	AccountKeeper        authkeeper.AccountKeeper
+	BankKeeper           bankkeeper.Keeper
+	CapabilityKeeper     *capabilitykeeper.Keeper
+	StakingKeeper        stakingkeeper.Keeper
+	SlashingKeeper       slashingkeeper.Keeper
+	MintKeeper           mintkeeper.Keeper
+	DistrKeeper          distrkeeper.Keeper
+	GovKeeper            govkeeper.Keeper
+	CrisisKeeper         crisiskeeper.Keeper
+	UpgradeKeeper        upgradekeeper.Keeper
+	ParamsKeeper         paramskeeper.Keeper
+	IBCKeeper            *ibckeeper.Keeper // IBC Keeper must be a pointer in the app, so we can SetRouter on it correctly
+	EvidenceKeeper       evidencekeeper.Keeper
+	TransferKeeper       ibctransferkeeper.Keeper
+	FeeGrantKeeper       feegrantkeeper.Keeper
+	InterchainswapKeeper interchainswapkeeper.Keeper
+	ICAControllerKeeper  icacontrollerkeeper.Keeper
 
 	// make scoped keepers public for test purposes
-	ScopedIBCKeeper      capabilitykeeper.ScopedKeeper
-	ScopedTransferKeeper capabilitykeeper.ScopedKeeper
-
+	ScopedIBCKeeper            capabilitykeeper.ScopedKeeper
+	ScopedTransferKeeper       capabilitykeeper.ScopedKeeper
 	ScopedInterchainswapKeeper capabilitykeeper.ScopedKeeper
-	InterchainswapKeeper       interchainswapmodulekeeper.Keeper
-
-	ICAControllerKeeper       icacontrollerkeeper.Keeper
-	ScopedICAControllerKeeper capabilitykeeper.ScopedKeeper
+	ScopedICAControllerKeeper  capabilitykeeper.ScopedKeeper
 	// this line is used by starport scaffolding # stargate/app/keeperDeclaration
 
 	// mm is the module manager
@@ -265,8 +259,8 @@ func New(
 		authtypes.StoreKey, banktypes.StoreKey, stakingtypes.StoreKey,
 		minttypes.StoreKey, distrtypes.StoreKey, slashingtypes.StoreKey,
 		govtypes.StoreKey, paramstypes.StoreKey, ibchost.StoreKey, upgradetypes.StoreKey, feegrant.StoreKey,
-		evidencetypes.StoreKey, ibctransfertypes.StoreKey, icqtypes.StoreKey, capabilitytypes.StoreKey,
-		interchainswapmoduletypes.StoreKey, icacontrollertypes.StoreKey,
+		evidencetypes.StoreKey, ibctransfertypes.StoreKey, capabilitytypes.StoreKey,
+		interchainswaptypes.StoreKey, icacontrollertypes.StoreKey,
 		// this line is used by starport scaffolding # stargate/app/storeKey
 	)
 	tkeys := sdk.NewTransientStoreKeys(paramstypes.TStoreKey)
@@ -294,7 +288,7 @@ func New(
 	// grant capabilities for the ibc and ibc-transfer modules
 	scopedIBCKeeper := app.CapabilityKeeper.ScopeToModule(ibchost.ModuleName)
 	scopedTransferKeeper := app.CapabilityKeeper.ScopeToModule(ibctransfertypes.ModuleName)
-	scopedICQKeeper := app.CapabilityKeeper.ScopeToModule(icqtypes.ModuleName)
+	scopedInterchainswapKeeper := app.CapabilityKeeper.ScopeToModule(interchainswaptypes.ModuleName)
 	scopedICAControllerKeeper := app.CapabilityKeeper.ScopeToModule(icacontrollertypes.SubModuleName)
 	// this line is used by starport scaffolding # stargate/app/scopedKeeper
 
@@ -356,14 +350,6 @@ func New(
 	transferModule := transfer.NewAppModule(app.TransferKeeper)
 	transferIBCModule := transfer.NewIBCModule(app.TransferKeeper)
 
-	app.ICQKeeper = icqkeeper.NewKeeper(
-		appCodec, keys[icqtypes.StoreKey], app.GetSubspace(icqtypes.ModuleName),
-		app.IBCKeeper.ChannelKeeper, app.IBCKeeper.ChannelKeeper, &app.IBCKeeper.PortKeeper,
-		scopedICQKeeper, app.BaseApp,
-	)
-	icqModule := icq.NewAppModule(app.ICQKeeper)
-	icqIBCModule := icq.NewIBCModule(app.ICQKeeper)
-
 	app.ICAControllerKeeper = icacontrollerkeeper.NewKeeper(
 		appCodec, keys[icacontrollertypes.StoreKey], app.GetSubspace(icacontrollertypes.SubModuleName),
 		app.IBCKeeper.ChannelKeeper, // may be replaced with middleware such as ics29 fee
@@ -383,30 +369,31 @@ func New(
 		&stakingKeeper, govRouter,
 	)
 
-	scopedInterchainswapKeeper := app.CapabilityKeeper.ScopeToModule(interchainswapmoduletypes.ModuleName)
-	app.ScopedInterchainswapKeeper = scopedInterchainswapKeeper
-	app.InterchainswapKeeper = *interchainswapmodulekeeper.NewKeeper(
+	app.InterchainswapKeeper = *interchainswapkeeper.NewKeeper(
 		appCodec,
-		keys[interchainswapmoduletypes.StoreKey],
-		keys[interchainswapmoduletypes.MemStoreKey],
-		app.GetSubspace(interchainswapmoduletypes.ModuleName),
+		keys[interchainswaptypes.StoreKey],
+		keys[interchainswaptypes.MemStoreKey],
+		app.GetSubspace(interchainswaptypes.ModuleName),
 		app.IBCKeeper.ChannelKeeper,
 		app.IBCKeeper.ChannelKeeper,
 		&app.IBCKeeper.PortKeeper,
 		scopedInterchainswapKeeper,
 		app.ICAControllerKeeper,
 	)
-	interchainswapModule := interchainswapmodule.NewAppModule(appCodec, app.InterchainswapKeeper, app.AccountKeeper, app.BankKeeper)
-	interchainswapIBCModule := interchainswapmodule.NewIBCModule(app.InterchainswapKeeper, app.ICAControllerKeeper)
+	interchainswapModule := interchainswap.NewAppModule(appCodec, app.InterchainswapKeeper, app.AccountKeeper, app.BankKeeper)
+	interchainswapIBCModule := interchainswap.NewIBCModule(app.InterchainswapKeeper)
 
+	var icaControllerStack porttypes.IBCModule
+	icaControllerStack = interchainswapIBCModule
+	icaControllerStack = icacontroller.NewIBCMiddleware(icaControllerStack, app.ICAControllerKeeper)
+	icaControllerStack = interchainswap.NewIBCMiddleware(icaControllerStack, interchainswapIBCModule)
 	// this line is used by starport scaffolding # stargate/app/keeperDefinition
 
 	// Create static IBC router, add transfer route, then set and seal it
-	ibcRouter := ibcporttypes.NewRouter()
+	ibcRouter := porttypes.NewRouter()
 	ibcRouter.AddRoute(ibctransfertypes.ModuleName, transferIBCModule)
-	ibcRouter.AddRoute(icqtypes.ModuleName, icqIBCModule)
-	ibcRouter.AddRoute(interchainswapmoduletypes.ModuleName, interchainswapIBCModule)
-	ibcRouter.AddRoute(icacontrollertypes.SubModuleName, interchainswapIBCModule)
+	ibcRouter.AddRoute(interchainswaptypes.ModuleName, icaControllerStack)
+	ibcRouter.AddRoute(icacontrollertypes.SubModuleName, icaControllerStack)
 	// this line is used by starport scaffolding # ibc/app/router
 	app.IBCKeeper.SetRouter(ibcRouter)
 
@@ -440,7 +427,6 @@ func New(
 		ibc.NewAppModule(app.IBCKeeper),
 		params.NewAppModule(app.ParamsKeeper),
 		transferModule,
-		icqModule,
 		interchainswapModule,
 		ica.NewAppModule(&app.ICAControllerKeeper, nil),
 		// this line is used by starport scaffolding # stargate/app/appModule
@@ -461,7 +447,6 @@ func New(
 		vestingtypes.ModuleName,
 		ibchost.ModuleName,
 		ibctransfertypes.ModuleName,
-		icqtypes.ModuleName,
 		authtypes.ModuleName,
 		banktypes.ModuleName,
 		govtypes.ModuleName,
@@ -469,7 +454,7 @@ func New(
 		genutiltypes.ModuleName,
 		feegrant.ModuleName,
 		paramstypes.ModuleName,
-		interchainswapmoduletypes.ModuleName,
+		interchainswaptypes.ModuleName,
 		icatypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/beginBlockers
 	)
@@ -492,8 +477,7 @@ func New(
 		upgradetypes.ModuleName,
 		ibchost.ModuleName,
 		ibctransfertypes.ModuleName,
-		icqtypes.ModuleName,
-		interchainswapmoduletypes.ModuleName,
+		interchainswaptypes.ModuleName,
 		icatypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/endBlockers
 	)
@@ -520,9 +504,8 @@ func New(
 		paramstypes.ModuleName,
 		upgradetypes.ModuleName,
 		ibctransfertypes.ModuleName,
-		icqtypes.ModuleName,
 		feegrant.ModuleName,
-		interchainswapmoduletypes.ModuleName,
+		interchainswaptypes.ModuleName,
 		icatypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/initGenesis
 	)
@@ -585,6 +568,7 @@ func New(
 	app.ScopedIBCKeeper = scopedIBCKeeper
 	app.ScopedTransferKeeper = scopedTransferKeeper
 	app.ScopedICAControllerKeeper = scopedICAControllerKeeper
+	app.ScopedInterchainswapKeeper = scopedInterchainswapKeeper
 	// this line is used by starport scaffolding # stargate/app/beforeInitReturn
 
 	return app
@@ -730,9 +714,8 @@ func initParamsKeeper(appCodec codec.BinaryCodec, legacyAmino *codec.LegacyAmino
 	paramsKeeper.Subspace(govtypes.ModuleName).WithKeyTable(govtypes.ParamKeyTable())
 	paramsKeeper.Subspace(crisistypes.ModuleName)
 	paramsKeeper.Subspace(ibctransfertypes.ModuleName)
-	paramsKeeper.Subspace(icqtypes.ModuleName)
 	paramsKeeper.Subspace(ibchost.ModuleName)
-	paramsKeeper.Subspace(interchainswapmoduletypes.ModuleName)
+	paramsKeeper.Subspace(interchainswaptypes.ModuleName)
 	paramsKeeper.Subspace(icacontrollertypes.SubModuleName)
 	// this line is used by starport scaffolding # stargate/app/paramSubspace
 

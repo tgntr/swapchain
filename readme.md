@@ -39,7 +39,7 @@ https://docs.ignite.com/welcome/install
 ### 1. Start local swapchain network
 
 ```bash 
-make start-local-swapchain
+make start-swapchain
 ```
 
 <br>
@@ -47,7 +47,7 @@ make start-local-swapchain
 ### 2. Start local osmosis network
 
 ```bash 
-make start-local-osmosis
+make start-osmosis
 ```
 
 <br>
@@ -56,16 +56,7 @@ make start-local-osmosis
 
 <br>
 
-### 4. Create osmosis liquidity pool
-
-```bash
-# create liquidity pool for stake-uosmo with equal amounts
-osmosisd tx gamm create-pool --pool-file=contrib/osmosis-pool.json --from validator --home=contrib/osmosis/.osmosis --node=tcp://localhost:26662 --chain-id=osmosis --fees=875stake -y
-```
-
-<br>
-
-### 5. Start relayer
+### 4. Start relayer
 
 ```bash
 make start-relayer
@@ -73,7 +64,16 @@ make start-relayer
 
 <br>
 
-### 6. Wait until relayer makes connection between the networks (~30 secs)
+### 5. Wait until relayer makes connection between the networks (~30 secs)
+
+<br>
+
+### 6. Create osmosis liquidity pool
+
+```bash
+# create liquidity pool for stake-uosmo with equal amounts
+osmosisd tx gamm create-pool --pool-file=contrib/osmosis-pool.json --from validator --home=contrib/osmosis/.osmosis --node=tcp://localhost:26662 --chain-id=osmosis --fees=875stake -y
+```
 
 <br>
 
@@ -94,7 +94,7 @@ swapchaind tx interchainswap send-query-osmosis-spot-price channel-0 1 stake uos
 
 ```bash
 # price should be 1.00 since the pool has equal amounts for both tokens
-swapchaind query interchainswap query-state 1 --home=.swapchain --node=tcp://localhost:26660
+swapchaind q interchainswap query-state 1 --home=.swapchain --node=tcp://localhost:26660
 ```
 
 <br>
